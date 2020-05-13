@@ -11,7 +11,7 @@
     "bundle": "microbundle",
     "dev": "npm run bundle -- watch",
     "build": "npm run bundle",
-    "prepublish": "npm run build",
+    "prepare": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ash",
