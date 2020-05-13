@@ -11,9 +11,18 @@
     "bundle": "microbundle",
     "dev": "npm run bundle -- watch",
     "build": "npm run bundle",
+    "prepublish": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ash",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juice49/monstera.git"
+  },
+  "bugs": {
+    "url": "https://github.com/juice49/monstera/issues"
+  },
+  "homepage": "https://github.com/juice49/monstera#readme",
   "license": "ISC",
   "devDependencies": {
     "@types/react": "^16.9.34",
