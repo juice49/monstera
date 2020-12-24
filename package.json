@@ -33,6 +33,6 @@
     "lodash.upperfirst": "^4.3.1"
   },
   "peerDependencies": {
-    "react": "^16.13.1"
+    "react": ">=16.13.1"
   }
 }
