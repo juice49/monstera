@@ -1,7 +1,5 @@
-import { useContext } from 'react'
 import upperFirst from 'lodash.upperfirst'
-import { Value, AdaptiveValue, Direction, CssValue, Mixin, CssObject } from '../types'
-import { MonsteraContext } from '../lib/config'
+import { Value, AdaptiveValue, Direction, CssValue, Mixin, CssObject, Theme } from '../types'
 import mapValue from '../lib/map-value'
 import resolveValue from '../lib/resolve-value'
 
@@ -37,7 +35,9 @@ type Combination =
   | 'py'
   | 'p'
 
-type Props = Partial<Record<Combination, AdaptiveValue>>
+interface Props extends Partial<Record<Combination, AdaptiveValue>> {
+  theme: Theme
+}
 
 type Definition<T> = [string, T[]]
 type PropertyDefinition = Definition<Property>
@@ -110,8 +110,6 @@ function makeDefinition<T> (
 const getters = generateGetters(properties, directions)
 
 const space: Mixin<Props> = props => {
-  const config = useContext(MonsteraContext)
-
   return Object.entries(props).reduce((reduced, [propName, prop]) => {
     const getter = getters[propName]
 
@@ -121,7 +119,7 @@ const space: Mixin<Props> = props => {
 
     return {
       ...reduced,
-      ...getter(prop, config.breakpoints)
+      ...getter(prop, props.theme.breakpoints)
     }
   }, {})
 }

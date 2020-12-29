@@ -1,12 +1,11 @@
-import { useContext } from 'react'
-import { Value, AdaptiveValue, Mixin } from '../types'
+import { Value, AdaptiveValue, Mixin, Theme } from '../types'
 import mapValue from '../lib/map-value'
 import resolveValue from '../lib/resolve-value'
-import { MonsteraContext } from '../lib/config'
 
 export interface Props {
   gap: Value | AdaptiveValue,
-  direction: 'inline' | 'block'
+  direction: 'inline' | 'block',
+  theme: Theme
 }
 
 const properties = {
@@ -15,12 +14,11 @@ const properties = {
 }
 
 const stack: Mixin<Props> = props => {
-  const config = useContext(MonsteraContext)
   const property = properties[props.direction]
 
   return mapValue(
     props.gap,
-    config.breakpoints,
+    props.theme.breakpoints,
     value => ({
       '> * + *': {
         [property]: resolveValue('space', value)
