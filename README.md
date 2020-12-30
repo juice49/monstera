@@ -14,13 +14,14 @@ Media query breakpoints cannot be stored in Custom Properties. Hopefully [CSS
 Environment Variables](https://developer.mozilla.org/en-US/docs/Web/CSS/env)
 will provide a way to store breakpoints in CSS.
 
-For now, Monstera exposes a React context that can be used to define breakpoints.
+For now, Monstera breakpoints must be defined in a Styled Components theme.
 
 ```ts
 import React from 'react'
-import { MonsteraContext, MonsteraConfig } from 'monstera'
+import { Theme } from 'monstera'
+import { ThemeProvider } from 'styled-components'
 
-const monsteraConfig: MonsteraConfig = {
+const theme: Theme = {
   breakpoints: [
     [30, 'em'],
     [45, 'em'],
@@ -29,9 +30,9 @@ const monsteraConfig: MonsteraConfig = {
 }
 
 const App: React.FC = () => (
-  <MonsteraContext.Provider value={monsteraConfig}>
+  <ThemeProvider theme={theme}>
     <p>The ringing in my ears is from another life.</p>
-  </MonsterContext.Provider>
+  </ThemeProvider>
 )
 ```
 
