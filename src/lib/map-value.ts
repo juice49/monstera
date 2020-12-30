@@ -2,41 +2,37 @@ import { Value, AdaptiveValue, CssValue, CssObject } from '../types'
 import isCssValue from './is-css-value'
 import cssValueToString from './css-value-to-string'
 
-export default function mapValue (
+export default function mapValue(
   value: Value | AdaptiveValue,
   breakpoints: CssValue[],
   mapper: (value: CssValue | number) => CssObject,
-  initialValue: CssObject = {}
+  initialValue: CssObject = {},
 ): CssObject {
   if (isCssValue(value)) {
     const styles = mapper(value)
 
     return {
       ...initialValue,
-      ...styles
+      ...styles,
     }
   }
 
   return [].concat(value).reduce((reduced, unwrappedValue, index) => {
     const styles = mapper(unwrappedValue)
-    
-    return breakpoint(
-      breakpoints[index - 1],
-      styles,
-      reduced
-    )
+
+    return breakpoint(breakpoints[index - 1], styles, reduced)
   }, initialValue)
 }
 
-function breakpoint (
+function breakpoint(
   breakpoint: CssValue | undefined,
   styles: CssObject,
-  initialValue: CssObject = {}
+  initialValue: CssObject = {},
 ): CssObject {
   if (typeof breakpoint === 'undefined') {
     return {
       ...initialValue,
-      ...styles
+      ...styles,
     }
   }
 
@@ -48,8 +44,8 @@ function breakpoint (
   }
 
   nextValue[bpKey] = {
-    ...nextValue[bpKey] as CssObject,
-    ...styles
+    ...(nextValue[bpKey] as CssObject),
+    ...styles,
   }
 
   return nextValue

@@ -1,11 +1,19 @@
 import upperFirst from 'lodash.upperfirst'
-import { Value, AdaptiveValue, Direction, CssValue, Mixin, CssObject, Theme } from '../types'
+import {
+  Value,
+  AdaptiveValue,
+  Direction,
+  CssValue,
+  Mixin,
+  CssObject,
+  Theme,
+} from '../types'
 import mapValue from '../lib/map-value'
 import resolveValue from '../lib/resolve-value'
 
 type Property = 'margin' | 'padding'
 
-type Combination = 
+type Combination =
   | 'marginTop'
   | 'marginRight'
   | 'marginBottom'
@@ -47,7 +55,7 @@ const properties: (PropertyDefinition | Property)[] = [
   'margin',
   'padding',
   ['m', ['margin']],
-  ['p', ['padding']]
+  ['p', ['padding']],
 ]
 
 const directions: (DirectionDefinition | Direction)[] = [
@@ -60,14 +68,14 @@ const directions: (DirectionDefinition | Direction)[] = [
   ['b', ['bottom']],
   ['l', ['left']],
   ['x', ['left', 'right']],
-  ['y', ['top', 'bottom']]
+  ['y', ['top', 'bottom']],
 ]
 
 type Getters = Partial<Record<Combination, (value: any) => CssObject>>
 
-function generateGetters (
+function generateGetters(
   properties: (PropertyDefinition | Property)[],
-  directions: (DirectionDefinition | Direction)[]
+  directions: (DirectionDefinition | Direction)[],
 ): Getters {
   const getters = {}
 
@@ -78,9 +86,11 @@ function generateGetters (
     getters[propertyName] = getter(['top', 'right', 'bottom', 'left'])
 
     directions.forEach(direction => {
-      const [directionName, directionValue] = makeDefinition<Direction>(direction)
+      const [directionName, directionValue] = makeDefinition<Direction>(
+        direction,
+      )
       const short = [...propertyName, ...directionName].length === 2
-      
+
       const maybeUpperFirst: (string: String) => string = short
         ? string => string
         : upperFirst
@@ -93,13 +103,11 @@ function generateGetters (
   return getters
 }
 
-function isDefinition<T> (definition: any): definition is Definition<T> {
+function isDefinition<T>(definition: any): definition is Definition<T> {
   return Array.isArray(definition) && Array.isArray(definition[1])
 }
 
-function makeDefinition<T> (
-  definition: T | Definition<T>,
-): Definition<T> {
+function makeDefinition<T>(definition: T | Definition<T>): Definition<T> {
   if (isDefinition<T>(definition)) {
     return definition
   }
@@ -119,18 +127,18 @@ const space: Mixin<Props> = props => {
 
     return {
       ...reduced,
-      ...getter(prop, props.theme.breakpoints)
+      ...getter(prop, props.theme.breakpoints),
     }
   }, {})
 }
 
 export default space
 
-function applyProperty (property: Property) {
+function applyProperty(property: Property) {
   return function (directions: Direction[]) {
     return function (
       value: Value | AdaptiveValue,
-      breakpoints: CssValue[]
+      breakpoints: CssValue[],
     ): CssObject {
       return directions.reduce((styles, direction) => {
         const key = [property, direction]
@@ -142,9 +150,9 @@ function applyProperty (property: Property) {
           breakpoints,
           // (value: CssValue | number) => [key, resolveValue('space', value)],
           (value: CssValue | number) => ({
-            [key]: resolveValue('space', value)
+            [key]: resolveValue('space', value),
           }),
-          styles
+          styles,
         )
       }, {})
     }

@@ -9,6 +9,6 @@ export const MonsteraContext = createContext<MonsteraConfig>({
   breakpoints: [
     [30, 'em'],
     [45, 'em'],
-    [60, 'em']
-  ]
+    [60, 'em'],
+  ],
 })

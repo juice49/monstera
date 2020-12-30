@@ -25,8 +25,8 @@ const theme: Theme = {
   breakpoints: [
     [30, 'em'],
     [45, 'em'],
-    [60, 'em']
-  ]
+    [60, 'em'],
+  ],
 }
 
 const App: React.FC = () => (
@@ -57,4 +57,4 @@ Define a space range using `--spaceN` Custom Properties. For example:
 ## Todo
 
 - Test Monstera with zero-runtime CSS-in-JS libraries, such as
-[Linaria](https://linaria.now.sh).
+  [Linaria](https://linaria.now.sh).
